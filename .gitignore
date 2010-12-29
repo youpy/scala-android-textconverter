@@ -1,0 +1,10 @@
+target/
+lib_managed/
+project/boot/
+project/build/target/
+project/plugins/target/
+project/plugins/project/
+project/plugins/lib_managed/
+project/plugins/src_managed/
+tests/target
+src/main/java
