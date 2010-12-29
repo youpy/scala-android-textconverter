@@ -1,0 +1,10 @@
+sbt-android-plugin
+ * https://github.com/jberkel/android-plugin/
+ * http://blog.takeda-soft.jp/blog/show/383
+create_project
+ * https://github.com/jberkel/android-plugin/raw/master/script/create_project
+
+create project:
+ % create_project "Senryu" com.buycheapviagraonlinenow.senryu --platform android-8 --activity TestActivity --scala-version 2.8.1
+build:
+ % sbt update package-debug
