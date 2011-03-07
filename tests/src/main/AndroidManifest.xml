@@ -1,10 +1,10 @@
 <manifest 
-package="com.buycheapviagraonlinenow.senryu.tests" xmlns:android="http://schemas.android.com/apk/res/android">
+package="com.buycheapviagraonlinenow.android.textconverter.tests" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="7"></uses-sdk>
     <application>
         <uses-library android:name="android.test.runner"></uses-library>
     </application>
     <instrumentation 
-    android:label="Tests" android:targetPackage="com.buycheapviagraonlinenow.senryu" android:name="android.test.InstrumentationTestRunner">
+    android:label="Tests" android:targetPackage="com.buycheapviagraonlinenow.android.textconverter" android:name="android.test.InstrumentationTestRunner">
 </instrumentation>
 </manifest>

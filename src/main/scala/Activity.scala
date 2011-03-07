@@ -1,4 +1,4 @@
-package com.buycheapviagraonlinenow.senryu
+package com.buycheapviagraonlinenow.android.textconverter
 
 import _root_.android.app.Activity
 import _root_.android.app.ProgressDialog
@@ -32,8 +32,8 @@ class TestActivity extends Activity {
       dialog.setTitle("Pick a service")
       dialog.setItems(services, new DialogInterface.OnClickListener {
         override def onClick(dialog:DialogInterface, item:Int) {
-          var intent = new Intent("com.buycheapviagraonlinenow.senryu.CONVERT");
-          intent.setClassName("com.buycheapviagraonlinenow.senryu", "com.buycheapviagraonlinenow.senryu.Convert");
+          var intent = new Intent("com.buycheapviagraonlinenow.android.textconverter.CONVERT");
+          intent.setClassName("com.buycheapviagraonlinenow.android.textconverter", "com.buycheapviagraonlinenow.android.textconverter.Convert");
           intent.putExtra(Constant.SERVICE_NAME, services(item).asInstanceOf[String])
           intent.putExtra(Constant.CONVERTED_TEXT, text.asInstanceOf[String])
           startActivityForResult(intent, 0);

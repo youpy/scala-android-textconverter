@@ -1,4 +1,4 @@
-package com.buycheapviagraonlinenow.senryu
+package com.buycheapviagraonlinenow.android.textconverter
 
 import _root_.android.app.Activity
 import _root_.android.app.ProgressDialog

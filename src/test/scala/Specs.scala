@@ -1,4 +1,4 @@
-import com.buycheapviagraonlinenow.senryu
+import com.buycheapviagraonlinenow.android.textconverter
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
