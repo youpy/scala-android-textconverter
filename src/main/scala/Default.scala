@@ -6,10 +6,6 @@ import _root_.android.view.View
 import _root_.android.os.Bundle
 
 class DefaultActivity extends Activity {
-  private[this] object Constant {
-    var SERVICES_FILENAME = "services.json"
-  }
-
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
 

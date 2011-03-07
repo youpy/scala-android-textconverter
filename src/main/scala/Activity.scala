@@ -14,13 +14,6 @@ import _root_.java.io._
 import _root_.com.twitter.json._
 
 class TestActivity extends Activity {
-  private[this] object Constant {
-    var CONVERTED_TEXT = "converted_text"
-    var SERVICE_NAME = "service_name"
-    var REPLACE_KEY = "replace_key"
-    var SERVICES_FILENAME = "services.json"
-  }
-
   var self = this
   var handler = new Handler {
     override def handleMessage(message:Message) {
@@ -49,12 +42,11 @@ class TestActivity extends Activity {
     var intent = getIntent();
     var text = intent.getStringExtra(Constant.REPLACE_KEY)
     var progressDialog = new ProgressDialog(this)
+    var self = this
 
     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
     progressDialog.setMessage("Loading services ...")
     progressDialog.show
-
-    var self = this
 
     new Thread(new Runnable {
       override def run {

@@ -10,12 +10,6 @@ import _root_.java.io._
 import _root_.com.twitter.json._
 
 class Convert extends Activity {
-  private[this] object Constant {
-    var CONVERTED_TEXT = "converted_text"
-    var SERVICE_NAME = "service_name"
-    var REPLACE_KEY = "replace_key"
-  }
-
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
 
