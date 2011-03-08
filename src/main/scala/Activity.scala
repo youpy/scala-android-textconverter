@@ -77,16 +77,33 @@ class TestActivity extends Activity {
   private def nop {}
 
   private def getServices:Array[CharSequence] = {
-    var stringData = ""
+    var data = if(isDataStored) loadDataFromFile else loadDataFromURL
 
-    if(isDataStored) {
-      stringData = loadDataFromFile
-    } else {
-      stringData = loadDataFromURL
-      saveDataToFile(stringData)
+    if(!isDataStored) {
+      saveDataToFile(data)
     }
 
-    var data = Json.parse(stringData).asInstanceOf[List[Map[String, Any]]]
+    data
+  }
+
+  private def isDataStored:Boolean = {
+    fileList.exists(_ == Constant.SERVICES_FILENAME)
+  }
+
+  private def loadDataFromURL:Array[CharSequence] = {
+    var url = new URL("http://wedata.net/databases/Text%20Conversion%20Services/items.json")
+    var in = new BufferedReader(new InputStreamReader(url.openStream))
+    var responseText = ""
+    var inputLine = ""
+
+    /* http://www.ne.jp/asahi/hishidama/home/tech/scala/expression.html#h_let */
+    while({inputLine = in.readLine; inputLine != null}) {
+      responseText += inputLine
+    }
+
+    in.close
+
+    var data = Json.parse(responseText).asInstanceOf[List[Map[String, Any]]]
     var result = new Array[CharSequence](data.length)
     var i = 0
 
@@ -98,37 +115,28 @@ class TestActivity extends Activity {
     result
   }
 
-  private def isDataStored:Boolean = {
-    fileList.exists(_ == Constant.SERVICES_FILENAME)
-  }
+  private def loadDataFromFile:Array[CharSequence] = {
+    var is = openFileInput(Constant.SERVICES_FILENAME);
+    var bytes = new Array[Byte](is.available)
 
-  private def loadDataFromURL:String = {
-    var url = new URL("http://wedata.net/databases/Text%20Conversion%20Services/items.json")
-    var in = new BufferedReader(new InputStreamReader(url.openStream))
-    var result = ""
-    var inputLine = ""
+    is.read(bytes)
+    is.close
 
-    /* http://www.ne.jp/asahi/hishidama/home/tech/scala/expression.html#h_let */
-    while({inputLine = in.readLine; inputLine != null}) {
-      result += inputLine
-    }
+    var data = Json.parse(new String(bytes)).asInstanceOf[List[CharSequence]]
+    var result = new Array[CharSequence](data.length)
+    var i = 0
 
-    in.close
+    data.foreach(service => {
+      result(i) = service
+      i += 1
+    })
 
     result
   }
 
-  private def loadDataFromFile:String = {
-    var is = openFileInput(Constant.SERVICES_FILENAME);
-    var bytes = new Array[Byte](is.available)
-    is.read(bytes)
-    is.close
-    new String(bytes)
-  }
-
-  private def saveDataToFile(data:String) {
+  private def saveDataToFile(data:Array[CharSequence]) {
     var os = openFileOutput(Constant.SERVICES_FILENAME, Context.MODE_PRIVATE)
-    os.write(data.getBytes)
+    os.write(Json.build(data).toString.getBytes)
     os.close
   }
 }
