@@ -30,7 +30,7 @@ class Convert extends Activity {
             case None => doFinish("")
           }
         } catch {
-          case e => doFinish("aaa")
+          case e => doFinish(e.getStackTraceString)
         }
       }
     }).start
@@ -44,8 +44,12 @@ class Convert extends Activity {
     finish
   }
 
+  private[this] def URLEncode(str:String):String = {
+    URLEncoder.encode(str, "UTF-8").replace("+", "%20")
+  }
+
   private[this] def convert(name:String, text:String):Option[String] = {
-    var url = new URL(new URI("http://youpy.no.de", "/tcs/" + name + "?text=" + text, null).toString)
+    var url = new URL("http://youpy.no.de/tcs/" + URLEncode(name) + "?text=" + URLEncode(text))
     var in = new BufferedReader(new InputStreamReader(url.openStream))
     var responseText = ""
     var inputLine = ""
