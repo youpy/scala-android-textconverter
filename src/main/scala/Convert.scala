@@ -44,12 +44,8 @@ class Convert extends Activity {
     finish
   }
 
-  private[this] def URLEncode(str:String):String = {
-    URLEncoder.encode(str, "UTF-8")
-  }
-
   private[this] def convert(name:String, text:String):Option[String] = {
-    var url = new URL("http://youpy.no.de/tcs/" + URLEncode(name) + "?text=" + URLEncode(text))
+    var url = new URL(new URI("http://youpy.no.de", "/tcs/" + name + "?text=" + text, null).toString)
     var in = new BufferedReader(new InputStreamReader(url.openStream))
     var responseText = ""
     var inputLine = ""
