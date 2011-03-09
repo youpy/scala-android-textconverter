@@ -5,11 +5,13 @@ import _root_.android.widget.Button
 import _root_.android.view.View
 import _root_.android.os.Bundle
 
-class DefaultActivity extends Activity {
+class DefaultActivity extends TypedActivity {
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
 
-    var button = new Button(this)
+    setContentView(R.layout.main)
+
+    val button = findView(TR.clear_cache)
     button.setText("Clear Cache")
     button.setOnClickListener(new View.OnClickListener {
       override def onClick(v:View) {
@@ -17,6 +19,5 @@ class DefaultActivity extends Activity {
         deleteFile(Constant.SERVICES_FILENAME)
       }
     })
-    setContentView(button)
   }
 }

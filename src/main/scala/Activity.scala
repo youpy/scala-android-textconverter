@@ -9,26 +9,28 @@ import _root_.android.os.Handler
 import _root_.android.os.Message
 import _root_.android.content.Intent
 import _root_.android.content.Context
+import _root_.android.view.View
 import _root_.java.net._
 import _root_.java.io._
 import _root_.com.twitter.json._
 
-class TestActivity extends Activity {
+class TestActivity extends TypedActivity {
   var self = this
   var handler = new Handler {
     override def handleMessage(message:Message) {
       var services = message.getData().get("services").asInstanceOf[Array[CharSequence]]
       var text = message.getData().get("text")
       var dialog = new AlertDialog.Builder(self)
-      var id = 0
 
       dialog.setTitle("Pick a service")
       dialog.setItems(services, new DialogInterface.OnClickListener {
         override def onClick(dialog:DialogInterface, item:Int) {
           var intent = new Intent("com.buycheapviagraonlinenow.android.textconverter.CONVERT");
+
           intent.setClassName("com.buycheapviagraonlinenow.android.textconverter", "com.buycheapviagraonlinenow.android.textconverter.Convert");
           intent.putExtra(Constant.SERVICE_NAME, services(item).asInstanceOf[String])
           intent.putExtra(Constant.CONVERTED_TEXT, text.asInstanceOf[String])
+
           startActivityForResult(intent, 0);
         }
       })
@@ -39,10 +41,47 @@ class TestActivity extends Activity {
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
 
+    setContentView(R.layout.convert)
+
     var intent = getIntent();
     var text = intent.getStringExtra(Constant.REPLACE_KEY)
+
+    val textInput = findView(TR.converted_text)
+    val convertButton = findView(TR.convert)
+    val doneButton = findView(TR.done)
+
+    convertButton.setOnClickListener(new View.OnClickListener {
+      override def onClick(v:View) { convert }
+    })
+
+    doneButton.setOnClickListener(new View.OnClickListener {
+      override def onClick(v:View) { done }
+    })
+
+    textInput.setText(text)
+  }
+
+  override def onActivityResult(req:Int, res:Int, intent:Intent) {
+    var text = intent.getStringExtra(Constant.REPLACE_KEY)
+    val textInput = findView(TR.converted_text)
+
+    textInput.setText(text)
+  }
+
+  private def done {
+    val textInput = findView(TR.converted_text)
+    var data = new Intent
+
+    data.putExtra(Constant.REPLACE_KEY, textInput.getText.toString)
+    setResult(Activity.RESULT_OK, data)
+
+    finish
+    System.exit(Activity.RESULT_OK)
+  }
+
+  private def convert {
     var progressDialog = new ProgressDialog(this)
-    var self = this
+    val textInput = findView(TR.converted_text)
 
     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
     progressDialog.setMessage("Loading services ...")
@@ -56,7 +95,7 @@ class TestActivity extends Activity {
           var bundle = new Bundle
 
           bundle.putCharSequenceArray("services", services);
-          bundle.putString("text", text);
+          bundle.putString("text", textInput.getText.toString);
           message.setData(bundle);
           handler.sendMessage(message);
           progressDialog.dismiss
@@ -65,13 +104,6 @@ class TestActivity extends Activity {
         }
       }
     }).start
-  }
-
-  override def onActivityResult(req:Int, res:Int, intent:Intent) {
-    setResult(Activity.RESULT_OK, intent)
-
-    finish
-    System.exit(Activity.RESULT_OK)
   }
 
   private def nop {}
