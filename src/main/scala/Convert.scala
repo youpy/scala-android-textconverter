@@ -49,7 +49,7 @@ class Convert extends Activity {
   }
 
   private[this] def convert(name:String, text:String):Option[String] = {
-    var url = new URL("http://youpy.no.de/tcs/" + URLEncode(name) + "?text=" + URLEncode(text))
+    var url = new URL("http://youpy.jit.su/tcs/" + URLEncode(name) + "?text=" + URLEncode(text))
     var in = new BufferedReader(new InputStreamReader(url.openStream))
     var responseText = ""
     var inputLine = ""
